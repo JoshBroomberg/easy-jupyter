@@ -1,3 +1,4 @@
 #!/bin/bash
 
 eval $(docker-machine env -u)
+export EASY_JUPYTER_HOME_PATH=$PWD

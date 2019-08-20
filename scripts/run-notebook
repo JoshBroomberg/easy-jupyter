@@ -1,6 +1,6 @@
 #!/bin/bash
 
-docker run --rm -p 8888:8888 -v "$PWD":/home/jovyan/work \
+docker run --rm -p 8888:8888 -v "$EASY_JUPYTER_HOME_PATH":/home/jovyan/work \
 	easyjupyter/easyjupyter start.sh jupyter notebook \
 	--NotebookApp.token='' \
 	--NotebookApp.notebook_dir='~/work' \

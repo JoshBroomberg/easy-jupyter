@@ -1,0 +1,3 @@
+#!/bin/bash
+
+docker-machine scp -r aws-sandbox:$EASY_JUPYTER_HOME_PATH/* $PWD
