@@ -63,6 +63,6 @@ NOTE: you must run all the commands below in the same terminal window and you sh
 
 - When you're doneRun `easy-jupyter use-local` to switch back to your machine.
 
-### 4D: Tearing-down up AWS instances
+### 4D: Tearing-down AWS instances
 
 - You MUST run `easy-jupyter stop-aws` (stops the instance, preserving files) and/or `easy-jupyter destroy-aws` (deletes the instance, deleting all files) when you are done working to avoid incurring charges for the EC2 box. Stopping will stop most charges except a small amount for data storage.
