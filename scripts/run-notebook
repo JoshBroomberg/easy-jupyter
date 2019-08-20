@@ -1,6 +1,8 @@
+#!/bin/bash
+
 docker run --rm -p 8888:8888 -v "$PWD":/home/jovyan/work \
-	jupyter/my-jupyter start.sh jupyter notebook \
+	easyjupyter/easyjupyter start.sh jupyter notebook \
 	--NotebookApp.token='' \
 	--NotebookApp.notebook_dir='~/work' \
+	--NotebookApp.ip='0.0.0.0' \
 	--NotebookApp.allow_origin='https://colab.research.google.com' --NotebookApp.port_retries=0
-

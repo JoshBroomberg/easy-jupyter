@@ -1,0 +1,5 @@
+#!/bin/bash
+
+if docker build --rm -t easyjupyter/easyjupyter .; then
+  docker push easyjupyter/easyjupyter:latest
+fi

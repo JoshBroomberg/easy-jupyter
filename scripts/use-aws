@@ -1,0 +1,20 @@
+#!/bin/bash
+
+if ! docker-machine ls -q | grep --quiet '^aws-sandbox$' ; then
+  docker-machine create --driver amazonec2 --amazonec2-open-port 8888 --amazonec2-region us-east-1 aws-sandbox
+else
+  docker-machine start aws-sandbox
+fi
+
+docker-machine regenerate-certs aws-sandbox --force
+
+echo "Using AWS Machine for Docker"
+eval $(docker-machine env aws-sandbox)
+
+echo "AWS Machine IP"
+echo $(docker-machine ip aws-sandbox)
+
+docker-machine ssh aws-sandbox -f -N -L 8888:localhost:8888
+
+echo ""
+echo "NOTE: when finished, you must run: 'easy-jupyter stop-aws/destroy-aws' to turn off/delete the instance!"

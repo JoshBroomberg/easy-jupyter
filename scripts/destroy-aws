@@ -1,0 +1,4 @@
+#!/bin/bash
+
+docker-machine stop aws-sandbox
+docker-machine rm aws-sandbox
