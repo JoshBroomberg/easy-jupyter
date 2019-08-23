@@ -48,6 +48,14 @@ You may use the docker file to make changes to the core installation of Jupyter 
 NOTE: you must run all the commands below in the same terminal window and you should stay in the same project folder in that window for the complete life-cycle of the run. This allows for automatic data syncing.
 
 ### 4A: Initializing an AWS instance
+
+- Create an AWS account and/or log in to your AWS console. Navigate to IAM and create a user with Administrator Access permissions. You should give this user programmatic AWS access when asked and write does the access key and secret code.
+- Create a file at `~/.aws/credentials` with content which follows the format below. You can do `touch ~/.aws/credentials` and then `nano ~/.aws/credentials`.
+```
+[default]
+aws_access_key_id = AKID1234567890
+aws_secret_access_key = MY-SECRET-KEY
+```
 - To switch to AWS run `easy-jupyter use-aws`. This will create a new AWS instance of type t2.micro in the us-east-1 region. All data in your current folder will be loaded into your work environment on the remote instance.
   - To change the region of your instance you will need to go into the source of the use-aws command in scripts.
   - To change the instance size, use the AWS console - navigate to EC2 in the correct region, find the aws-sandbox instance and change the type by right clicking on the instance. The instance must be stopped for this change to work.
@@ -63,6 +71,6 @@ NOTE: you must run all the commands below in the same terminal window and you sh
 
 - When you're doneRun `easy-jupyter use-local` to switch back to your machine.
 
-### 4D: Tearing-down up AWS instances
+### 4D: Tearing-down AWS instances
 
 - You MUST run `easy-jupyter stop-aws` (stops the instance, preserving files) and/or `easy-jupyter destroy-aws` (deletes the instance, deleting all files) when you are done working to avoid incurring charges for the EC2 box. Stopping will stop most charges except a small amount for data storage.

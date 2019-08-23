@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if ! docker-machine ls -q | grep --quiet '^aws-sandbox$' ; then
-  docker-machine create --driver amazonec2 --amazonec2-open-port 8888 --amazonec2-region us-east-1 aws-sandbox
+  docker-machine create --driver amazonec2 --amazonec2-open-port 8888 --amazonec2-region us-east-1 --amazonec2-instance-type t2.micro aws-sandbox
 else
   docker-machine start aws-sandbox
   docker-machine regenerate-certs aws-sandbox --force
@@ -14,6 +14,7 @@ echo "Using AWS Machine for Docker:"
 eval $(docker-machine env aws-sandbox)
 
 # Send local files to AWS
+echo "Pushing local data to AWS"
 easy-jupyter push-to-aws
 
 echo "Opening local port 8888 and forwarding to remote machine"
