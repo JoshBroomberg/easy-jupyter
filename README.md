@@ -32,7 +32,9 @@ NOTE: the directory in which you run these commands will become the root directo
 
 By default, the runner scripts will pull a pre-built image from DockerHub. However, you may want to change your image to install new packages or change the runtime. You will need to rebuild the image for changes of this kind to be used by the runner commands.
 
-After following the instructions in the subsection below, run `easy-jupyter build`. This will rebuild the image. Following this, your image will be used by the runner commands. To switch back, you will need to destroy the image using the standard docker interface for deleting local images: see [here](https://lmgtfy.com/?q=deleting+docker+images)
+After following the instructions in the subsection below, run `easy-jupyter build`. This will rebuild the image. Following this, your image will be used by the runner commands **but only in local runs**. Running a custom image in AWS is not yet supported.
+
+To switch back to the original version of the image, you will need to destroy your custom image using the standard docker interface for deleting local images: see [here](https://lmgtfy.com/?q=deleting+docker+images)
 
 ### 3A: Adding new python packages
 
