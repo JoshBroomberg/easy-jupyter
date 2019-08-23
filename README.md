@@ -37,7 +37,7 @@ After following the instructions in the subsection below, run `easy-jupyter buil
 ### 3A: Adding new python packages
 
 - Add the package to the `requirements.txt` file in the repo.
-- Rebuild your image with `bash bin/build.sh` (you must be in the repo folder to do this)
+- Rebuild your image with `easy-jupyter build` (you must be in the repo folder to do this)
 
 ### 3B: Customizing the server
 
