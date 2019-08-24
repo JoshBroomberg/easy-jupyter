@@ -3,4 +3,3 @@
 docker-machine stop aws-sandbox
 
 echo "Switching back to local work context"
-easy-jupyter use-local
