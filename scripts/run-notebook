@@ -1,5 +1,6 @@
 #!/bin/bash
 
+EASY_JUPYTER_HOME_PATH=`cat $EASY_JUPYTER_PATH/vars/home-path.dat`
 docker run --rm -p 8888:8888 -v "$EASY_JUPYTER_HOME_PATH":/home/jovyan/work \
 	easyjupyter/easyjupyter start.sh jupyter notebook \
 	--NotebookApp.token='' \

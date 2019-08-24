@@ -38,8 +38,8 @@ To switch back to the original version of the image, you will need to destroy yo
 
 ### 3A: Adding new python packages
 
-- Add the package to the `requirements.txt` file in the repo.
-- Rebuild your image with `easy-jupyter build` (you must be in the repo folder to do this)
+- Add the package to the `requirements.txt` file in the repo. Use the standard name==version format for this. You can create formatted requirements file contents from your local env with `pip freeze` and then copy-paste the output to the file.
+- Rebuild your image with `easy-jupyter build`.
 
 ### 3B: Customizing the server
 
@@ -47,27 +47,38 @@ You may use the docker file to make changes to the core installation of Jupyter 
 
 ## 4. Running on AWS
 
-NOTE: you must run all the commands below in the same terminal window and you should stay in the same project folder in that window for the complete life-cycle of the run. This allows for automatic data syncing.
+NOTE: You should stay in the same active folder in your terminal for the complete life-cycle of the run. This allows for automatic data syncing.
 
 ### 4A: Initializing an AWS instance
 
 - Create an AWS account and/or log in to your AWS console. Navigate to IAM and create a user with Administrator Access permissions. You should give this user programmatic AWS access when asked and write does the access key and secret code.
 - Create a file at `~/.aws/credentials` with content which follows the format below. You can do `touch ~/.aws/credentials` and then `nano ~/.aws/credentials`.
+
 ```
 [default]
 aws_access_key_id = AKID1234567890
 aws_secret_access_key = MY-SECRET-KEY
 ```
-- To switch to AWS run `easy-jupyter use-aws`. This will create a new AWS instance of type t2.micro in the us-east-1 region. All data in your current folder will be loaded into your work environment on the remote instance.
-  - To change the region of your instance you will need to go into the source of the use-aws command in scripts.
-  - To change the instance size, use the AWS console - navigate to EC2 in the correct region, find the aws-sandbox instance and change the type by right clicking on the instance. The instance must be stopped for this change to work.
 
-- Following this command, the run commands will run jupyter on AWS but make it available at localhost:8888. All changes are saved in the remote host.
+- To switch to AWS run `easy-jupyter use-aws`. This will create a new AWS instance of type t2.micro in the us-east-1 region.
+  - To change the region of your instance you will need to go into the source of the `use-aws` command in scripts.
+  - To change the instance size, use the AWS console - navigate to EC2 in the correct region, find the aws-sandbox instance and change the type by right clicking on the instance. The instance must be stopped for this change to work. You can also change the default size in the source code of this repo.
 
-### 4B: Data Management on AWS
+- Running this command will also replicate your current work folder onto the AWS instance. For now, you cannot skip this step so you should run `use-aws` in a folder which you want to be uploaded and/or a blank folder. This will also make it easier to pull files back from the AWS instance later. See the data management section below for more detail.
 
-- Run `easy-jupyter pull-from-aws` to pull the new file versions from AWS to your local folder. All local versions will be overridden.
-- Run `easy-jupyter push-to-aws` to sync new local files to the remote. All remote versions will be overridden.
+- Following this command, the run commands will run Jupyter on AWS but make it available at localhost:8888. You must still do the run command before connecting to AWS. The `use-aws` command prepares the environment but does not run Jupyter.
+
+### 4B: Data Management/Workflow on AWS
+
+When running on AWS, all changes are persisted to the remote VM and not your local computer. By default, the top-level Jupyter workspace will mirror the folder you first ran the `use-aws` command in. Following the initial `use-aws`, you can do to further commands to manage data:
+
+- Run `easy-jupyter pull-from-aws` to pull the new file versions from AWS to your current directory. All local file versions will be overridden if the same file exists on the remote host. This command will download the files from active workspace folder on the VM (the last folder pushed via `push-to-aws`/`use-aws`). Note `pull-from-aws` pulls **the files** in the workspace but not the outer folder so the files will be replicated into the top level of your current directory. This works nicely with the suggested workflow below.
+
+- Run `easy-jupyter push-to-aws` to sync the current folder and its contents to the remote. All remote versions will be overridden. The push command will reset the active workspace for Jupyter to use the folder that was just pushed. This means you can use `push-to-aws` to change the remote instance to a new workspace. You will need to restart Jupyter if you do change the active workspace in this way.
+
+**Suggested Workflow**: create one project folder to use throughout the use/push/pull cycle. Do any local setup you want (usually nothing) and then run `use-aws` to replicate the work folder into AWS and set it as the active workspace. When you have done some work on the AWS instance, use `pull-from-aws` to persist the work back to your local folder. If you then make changes locally use `push-to-aws` to update any remote files before resuming work.
+
+
 
 ### 4C: Switching back to local
 

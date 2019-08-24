@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "Transferring local files to remote machine"
-export EASY_JUPYTER_BASE_HOME_PATH=/home/ubuntu/work
+EASY_JUPYTER_BASE_HOME_PATH=`cat $EASY_JUPYTER_PATH/vars/remote-base-path.dat`
 docker-machine ssh aws-sandbox mkdir -p $EASY_JUPYTER_BASE_HOME_PATH
 docker-machine scp -r $PWD aws-sandbox:$EASY_JUPYTER_BASE_HOME_PATH
-export EASY_JUPYTER_HOME_PATH=$EASY_JUPYTER_BASE_HOME_PATH/${PWD##*/}
+echo "/home/ubuntu/work/${PWD##*/}" > $EASY_JUPYTER_PATH/vars/home-path.dat

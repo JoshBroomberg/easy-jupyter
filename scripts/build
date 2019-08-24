@@ -1,5 +1,7 @@
 #!/bin/bash
 
-if docker build --rm -t easyjupyter/easyjupyter .; then
+echo "Building image locally"
+if docker build --rm -t easyjupyter/easyjupyter $EASY_JUPYTER_PATH; then
+  echo "Attempting push to remote repo"
   docker push easyjupyter/easyjupyter:latest
 fi
