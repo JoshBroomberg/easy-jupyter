@@ -5,5 +5,18 @@
       "jupyter_http_over_ws": true,
       "jupyterlab_code_formatter": true
     }
-  }
+  },
+
+  "Exporter": {
+    "preprocessors": [
+      "jupyter_contrib_nbextensions.nbconvert_support.CodeFoldingPreprocessor",
+      "jupyter_contrib_nbextensions.nbconvert_support.pre_pymarkdown.PyMarkdownPreprocessor"
+    ],
+    "template_path": [
+      ".",
+      "/opt/conda/lib/python3.7/site-packages/jupyter_contrib_nbextensions/templates"
+    ]
+  },
+
+  "NbConvertApp": { "postprocessor_class": "post_embedhtml.EmbedPostProcessor" }
 }

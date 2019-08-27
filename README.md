@@ -30,7 +30,11 @@ NOTE: the directory in which you run these commands will become the root directo
 
 ## 3. Customizing Jupyter
 
-A copy of the standard Jupyter Config is provided (with some tweaks) as part of this repo in the `jupyter_config` folder. This folder is mounted onto the jupyter container at run time such that changes made in the Jupyter settings (like activating extensions) are persisted beyond the container life-cycle. You can also manually change the settings here - for example adding a new nbconvert template - and then restart the container to have those changes loaded into Jupyter.
+A copy of the standard Jupyter Config is provided (with some tweaks) as part of this repo in the `jupyter_config` folder. This folder is mounted onto the jupyter container at run time. This allows for two kinds of customization.
+
+ 1. Changes made from the Jupyter server settings - like activating extensions - are persisted beyond the container life-cycle and will be used on the next run.
+
+ 2. You can also change the settings in the local files in this repository by hand and have them used by Jupyter at run time. For example adding a new nbconvert template. You must restart the server for these changes to take effect.
 
 ## 4. Customizing the Docker Image
 
