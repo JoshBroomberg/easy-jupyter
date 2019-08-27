@@ -39,5 +39,3 @@ RUN jupyter labextension install @ijmbarr/jupyterlab_spellchecker
 # Export formatting
 RUN pip install nb_pdf_template && \
     python -m nb_pdf_template.install
-
-COPY jupyter_notebook_config.py .jupyter/jupyter_notebook_config.py

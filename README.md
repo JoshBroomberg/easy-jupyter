@@ -28,7 +28,11 @@ For the commands below to work, you must have the docker daemon turned on.
 
 NOTE: the directory in which you run these commands will become the root directory for your notebook server. Any changes you make from the notebooks/server will persist in this directory. This isn't true for AWS, see section 4 below.
 
-## 3. Customizing the Docker Image
+## 3. Customizing Jupyter
+
+A copy of the standard Jupyter Config is provided (with some tweaks) as part of this repo in the `jupyter_config` folder. This folder is mounted onto the jupyter container at run time such that changes made in the Jupyter settings (like activating extensions) are persisted beyond the container life-cycle. You can also manually change the settings here - for example adding a new nbconvert template - and then restart the container to have those changes loaded into Jupyter.
+
+## 4. Customizing the Docker Image
 
 By default, the runner scripts will pull a pre-built image from DockerHub. However, you may want to change your image to install new packages or change the runtime. You will need to rebuild the image for changes of this kind to be used by the runner commands.
 
@@ -36,20 +40,20 @@ After following the instructions in the subsection below, run `easy-jupyter buil
 
 To switch back to the original version of the image, you will need to destroy your custom image using the standard docker interface for deleting local images: see [here](https://lmgtfy.com/?q=deleting+docker+images)
 
-### 3A: Adding new python packages
+### 4A: Adding new python packages
 
 - Add the package to the `requirements.txt` file in the repo. Use the standard name==version format for this. You can create formatted requirements file contents from your local env with `pip freeze` and then copy-paste the output to the file.
 - Rebuild your image with `easy-jupyter build`.
 
-### 3B: Customizing the server
+### 4B: Customizing the server
 
 You may use the docker file to make changes to the core installation of Jupyter or change anything else about the configuration of the runtime. Any changes here will also require rebuilds.
 
-## 4. Running on AWS
+## 5. Running on AWS
 
 NOTE: You should stay in the same active folder in your terminal for the complete life-cycle of the run. This allows for automatic data syncing.
 
-### 4A: Initializing an AWS instance
+### 5A: Initializing an AWS instance
 
 - Create an AWS account and/or log in to your AWS console. Navigate to IAM and create a user with Administrator Access permissions. You should give this user programmatic AWS access when asked and write does the access key and secret code.
 - Create a file at `~/.aws/credentials` with content which follows the format below. You can do `touch ~/.aws/credentials` and then `nano ~/.aws/credentials`.
@@ -68,7 +72,7 @@ aws_secret_access_key = MY-SECRET-KEY
 
 - Following this command, the run commands will run Jupyter on AWS but make it available at localhost:8888. You must still do the run command before connecting to AWS. The `use-aws` command prepares the environment but does not run Jupyter.
 
-### 4B: Data Management/Workflow on AWS
+### 5B: Data Management/Workflow on AWS
 
 When running on AWS, all changes are persisted to the remote VM and not your local computer. By default, the top-level Jupyter workspace will mirror the folder you first ran the `use-aws` command in. Following the initial `use-aws`, you can do to further commands to manage data:
 
@@ -80,10 +84,10 @@ When running on AWS, all changes are persisted to the remote VM and not your loc
 
 
 
-### 4C: Switching back to local
+### 5C: Switching back to local
 
 - When you're doneRun `easy-jupyter use-local` to switch back to your machine.
 
-### 4D: Tearing-down AWS instances
+### 5D: Tearing-down AWS instances
 
 - You MUST run `easy-jupyter stop-aws` (stops the instance, preserving files) and/or `easy-jupyter destroy-aws` (deletes the instance, deleting all files) when you are done working to avoid incurring charges for the EC2 box. Stopping will stop most charges except a small amount for data storage.

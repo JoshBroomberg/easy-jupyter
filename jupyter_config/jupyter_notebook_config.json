@@ -1,0 +1,9 @@
+{
+  "NotebookApp": {
+    "nbserver_extensions": {
+      "jupyter_nbextensions_configurator": true,
+      "jupyter_http_over_ws": true,
+      "jupyterlab_code_formatter": true
+    }
+  }
+}
