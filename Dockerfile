@@ -11,9 +11,6 @@ RUN pip install --upgrade jupyterlab && pip install --upgrade notebook
 RUN pip install jupyter_contrib_nbextensions && \
     jupyter contrib nbextension install --user
 
-## Modify or enable additional nbextensions here
-RUN jupyter nbextension enable spellchecker/main --user
-
 ## Install Google Colab Server Extension
 RUN pip install jupyter_http_over_ws && \
     jupyter serverextension enable --py jupyter_http_over_ws
