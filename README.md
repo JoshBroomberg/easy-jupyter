@@ -15,8 +15,9 @@ The solution below will allow you to:
 - Install Docker and launch the docker Daemon. Note that the number of cores/RAM can be set under preferences in Docker. The resource constraints of docker will affect the resources available to Jupyter.
 - Clone this repository and place it into a location where you are comfortable keeping it for as long as you will use this project (we keep scripts in the repo rather than installing anything into bin folders).
 - cd into the repository on your local machine: `$ cd /path/to/repo`
-- Run `bash ./bin/install.sh`. This will install the execution shim into your bash profile file. (You may need to make this file executable with `chmod +x ./bin/install.sh)`.
-- Restart your terminal before proceeding.
+- Run `bash ./bin/install.sh && source ~/.bash_profile`. This will install the execution shim into your bash profile file and reload your terminal.
+  - If you get a permission error, you may need to make this file executable with `chmod +x ./bin/install.sh)`.
+  - If the test step below doesn't work, restart your terminal to manually reload from the bash profile file.
 - You can now use the `easy-jupyter` command line function to interact with Jupyter. Run `easy-jupyter test-config` to check that everything is set up right!.
 
 ## 2. Running Jupyter Locally
