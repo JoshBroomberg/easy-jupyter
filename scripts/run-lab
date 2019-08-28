@@ -2,6 +2,7 @@
 
 EASY_JUPYTER_HOME_PATH=`cat $EASY_JUPYTER_PATH/vars/home-path.dat`
 docker run --rm -p 8888:8888 \
+	--name jupyter_server \
 	-v "$EASY_JUPYTER_HOME_PATH":/home/jovyan/work \
 	-v $EASY_JUPYTER_PATH/jupyter_config:/home/jovyan/.jupyter \
 	easyjupyter/easyjupyter start.sh jupyter lab \

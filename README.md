@@ -95,3 +95,35 @@ When running on AWS, all changes are persisted to the remote VM and not your loc
 ### 5D: Tearing-down AWS instances
 
 - You MUST run `easy-jupyter stop-aws` (stops the instance, preserving files) and/or `easy-jupyter destroy-aws` (deletes the instance, deleting all files) when you are done working to avoid incurring charges for the EC2 box. Stopping will stop most charges except a small amount for data storage.
+
+## 6. Themes
+
+This package uses the [Jupyter Themes](https://github.com/dunovank/jupyter-themes) package to change the appearance of Jupyter. This allows granular control of color, font size, menu options etc.
+
+In order to deactivate styling, run the notebook server as normal and then run this command in a separate terminal tab:
+
+```
+docker exec -it jupyter_server jt -r
+```
+
+In order to customize the styling, use any of the options from the extensive README on the package and run the command below using the same procedure as above (jupyter running in one tab):
+
+```
+docker exec -it jupyter_server jt [your JT options]
+```
+
+This command is useful for setting the font sizes for code, text and output respectively.
+
+```
+docker exec -it jupyter_server jt -t grade3 -fs 12 -tfs 12 -ofs 13
+```
+
+## 7. Terminal
+
+If you need a terminal within the container, you can run the command below. Note that most changes you make via this terminal **will not** persist after you shut down the container. Any changes to python packages/jupyter should be done through the config files in this repo so that they apply to all runs.
+
+In order for the command below to work, you need to be running the notebook/lab server in a different terminal tab using the standard `easy-jupyter` commands.
+
+```
+docker exec -it jupyter_server /bin/bash
+```
