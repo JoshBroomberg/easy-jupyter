@@ -1,7 +1,13 @@
 ## Start from a core stack version
-FROM jupyter/datascience-notebook:latest
+FROM jupyter/tensorflow-notebook:latest
 
-## Set user for rest of script
+## Root commands
+USER root
+
+RUN apt-get update && \
+  apt-get install rsync
+
+## User Commands: set Jovyan as user for rest of script
 USER $NB_USER
 
 # Upgrade Jupyter Notebook/Lab

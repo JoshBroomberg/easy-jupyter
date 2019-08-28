@@ -5,6 +5,8 @@ docker run --rm -p 8888:8888  \
 	--name jupyter_server \
 	-v "$EASY_JUPYTER_HOME_PATH":/home/jovyan/work \
 	-v $EASY_JUPYTER_PATH/jupyter_config:/home/jovyan/.jupyter \
+	-v /tmp:/tmp \
+	--shm-size=2g \
 	easyjupyter/easyjupyter start.sh jupyter notebook \
 	--NotebookApp.token='' \
 	--NotebookApp.notebook_dir='~/work' \
