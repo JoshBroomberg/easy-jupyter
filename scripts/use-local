@@ -1,4 +1,5 @@
 #!/bin/bash
 
 eval $(docker-machine env -u)
-echo "${PWD}" > $EASY_JUPYTER_PATH/vars/home-path.dat
+
+ej-write-state JUPYTER_ROOT ${PWD}

@@ -1,7 +1,9 @@
 #!/bin/bash
 
+source $EASY_JUPYTER_PATH/vars/variables.sh
+
 echo "Transferring local files to remote machine"
-EASY_JUPYTER_BASE_HOME_PATH=`cat $EASY_JUPYTER_PATH/vars/remote-base-path.dat`
-docker-machine ssh aws-sandbox mkdir -p $EASY_JUPYTER_BASE_HOME_PATH
-docker-machine scp -r $PWD aws-sandbox:$EASY_JUPYTER_BASE_HOME_PATH
-echo "/home/ubuntu/work/${PWD##*/}" > $EASY_JUPYTER_PATH/vars/home-path.dat
+docker-machine ssh aws-sandbox mkdir -p $REMOTE_DATA_PATH
+docker-machine scp -r $PWD aws-sandbox:$REMOTE_DATA_PATH
+
+ej-write-state JUPYTER_ROOT "$REMOTE_DATA_PATH/${PWD##*/}"

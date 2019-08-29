@@ -1,9 +1,11 @@
 #!/bin/bash
 
-EASY_JUPYTER_HOME_PATH=`cat $EASY_JUPYTER_PATH/vars/home-path.dat`
+source $EASY_JUPYTER_PATH/vars/variables.sh
+ej-read-state JUPYTER_ROOT
+
 docker run --rm -p 8888:8888 \
-	--name jupyter_server \
-	-v "$EASY_JUPYTER_HOME_PATH":/home/jovyan/work \
+	--name $JUPYTER_CONTAINER_NAME \
+	-v $JUPYTER_ROOT:$CONTAINER_DATA_PATH \
 	-v $EASY_JUPYTER_PATH/jupyter_config:/home/jovyan/.jupyter \
 	-v /tmp:/tmp \
 	--shm-size=2g \

@@ -1,4 +1,3 @@
 #!/bin/bash
 
-EASY_JUPYTER_HOME_PATH=`cat $EASY_JUPYTER_PATH/vars/home-path.dat`
-docker-machine scp -r aws-sandbox:$EASY_JUPYTER_HOME_PATH/* $PWD
+docker-machine scp -r aws-sandbox:$JUPYTER_ROOT/* $PWD
