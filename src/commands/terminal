@@ -1,0 +1,3 @@
+#!/bin/bash
+
+docker exec -it jupyter_server /bin/bash

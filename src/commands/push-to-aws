@@ -1,7 +1,5 @@
 #!/bin/bash
 
-source $EASY_JUPYTER_PATH/vars/variables.sh
-
 echo "Transferring local files to remote machine"
 docker-machine ssh aws-sandbox mkdir -p $REMOTE_DATA_PATH
 docker-machine scp -r $PWD aws-sandbox:$REMOTE_DATA_PATH

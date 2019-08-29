@@ -1,6 +1,5 @@
 #!/bin/bash
 
-source $EASY_JUPYTER_PATH/vars/variables.sh
 ej-read-state JUPYTER_ROOT
 
 docker run --rm -p 8888:8888  \

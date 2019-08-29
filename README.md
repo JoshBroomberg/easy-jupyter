@@ -24,8 +24,8 @@ The solution below will allow you to:
 
 For the commands below to work, you must have the docker daemon turned on.
 
-- Run `easy-jupyter run-notebook` to run Jupyter notebook locally. It should be available at `localhost:8888`.
-- You can also run `easy-jupyter run-lab` to run Jupyter Lab locally.
+- Run `easy-jupyter notebook` to run Jupyter notebook locally. It should be available at `localhost:8888`.
+- You can also run `easy-jupyter lab` to run Jupyter Lab locally.
 
 NOTE: the directory in which you run these commands will become the root directory for your notebook server. Any changes you make from the notebooks/server will persist in this directory. This isn't true for AWS, see section 4 below.
 
@@ -126,5 +126,5 @@ If you need a terminal within the container, you can run the command below. Note
 In order for the command below to work, you need to be running the notebook/lab server in a different terminal tab using the standard `easy-jupyter` commands.
 
 ```
-docker exec -it jupyter_server /bin/bash
+easy-jupyter terminal
 ```
