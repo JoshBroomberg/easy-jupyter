@@ -5,7 +5,7 @@ ej-read-state JUPYTER_ROOT
 docker run --rm -p 8888:8888 \
 	--name $JUPYTER_CONTAINER_NAME \
 	-v $JUPYTER_ROOT:$CONTAINER_DATA_PATH \
-	-v $EASY_JUPYTER_PATH/jupyter_config:/home/jovyan/.jupyter \
+	-v $JUPYTER_CONFIG:/home/jovyan/.jupyter \
 	-v /tmp:/tmp \
 	--shm-size=2g \
 	easyjupyter/easyjupyter start.sh jupyter lab \

@@ -91,7 +91,7 @@ When running on AWS, all changes are persisted to the remote VM and not your loc
 
 ### 5C: Switching back to local
 
-- When you're doneRun `easy-jupyter use-local` to switch back to your machine.
+- When you're doneRun `easy-jupyter local-here` to switch back to your machine.
 
 ### 5D: Tearing-down AWS instances
 

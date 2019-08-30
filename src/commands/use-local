@@ -1,5 +1,0 @@
-#!/bin/bash
-
-eval $(docker-machine env -u)
-
-ej-write-state JUPYTER_ROOT ${PWD}

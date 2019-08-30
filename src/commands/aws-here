@@ -13,8 +13,16 @@ echo $(docker-machine ip aws-sandbox)
 echo "Using AWS Machine for Docker:"
 eval $(docker-machine env aws-sandbox)
 
-# Send local files to AWS
-echo "Pushing local data to AWS"
+ej-write-state AWS_ACTIVE true
+
+echo "Setting current folder as Working Directory"
+ej-write-state LOCAL_DATA_PATH ${PWD}
+ej-write-state JUPYTER_ROOT "$REMOTE_DATA_ROOT/${PWD##*/}"
+ej-write-state JUPYTER_CONFIG "$REMOTE_DATA_ROOT/$JUPYTER_CONFIG_FOLDER"
+
+# the push command relies on the local folder in a bad way. This Should
+# be moved to state.
+echo "Pushing current folder to AWS"
 easy-jupyter push-to-aws
 
 echo "Opening local port 8888 and forwarding to remote machine"

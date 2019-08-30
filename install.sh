@@ -6,10 +6,12 @@ INSTALL_LOCATION="${HOME}/.easy_jupyter"
 # Calculate absolute location of execution shim
 absolute_shim_location=$INSTALL_LOCATION/$RELATIVE_SHIM_LOCATION
 
+echo "Copying source..."
 # Install all src into permanent home
 mkdir -p $INSTALL_LOCATION/
 cp -r src/* $INSTALL_LOCATION
 
+echo "Configuring execution shim..."
 # Customize the execution shim and install into bahs profile
 # First, write in the expanded install location.
 echo "install_location=$INSTALL_LOCATION" >> $absolute_shim_location
@@ -36,14 +38,14 @@ function ej-write-state () {
 }
 
 function easy-jupyter () {
+  local EASY_JUPYTER_PATH=$install_location
   eval source $install_location/data/constants
   eval source $install_location/commands/$1
 }
 EOF
 
-echo "source $absolute_shim_location" >> ~/.bash_profile
+echo "Modifying bash profile..."
+# Only add the shim to the profile if it doesn't exist already.
+grep -qxF "source $absolute_shim_location" ~/.bash_profile || echo "source $absolute_shim_location" >> ~/.bash_profile
 
-# Persist the install location
-install_location_state_file=$INSTALL_LOCATION/data/state_data/EASY_JUPYTER_PATH.dat
-touch $install_location_state_file
-echo "$INSTALL_LOCATION" >> $install_location_state_file
+echo "Done install. Run  'source ~/.bash_profile' in all open terminal windows."
