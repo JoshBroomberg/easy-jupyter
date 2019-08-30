@@ -1,67 +1,72 @@
 # Easy Jupyter
 
-Run Jupyter notebooks without the pain of a messy python/conda environment. This repo provides an easy way to run Jupyter tools inside clean, flexible docker containers. It also makes it easy to run on your machine as well as on an AWS instance of any size.
+Run Jupyter notebooks on your machine and in the cloud with one command.
 
-The solution below will allow you to:
+## Why Easy Jupyter?
 
- - Launch a notebook server with one command - Python3, R and Julia are supported out the box.
- - Persist your work to your hard drive - no additional work required.
- - Install your own Python packages - install once, use forever.
- - Connect to Jupyter from Google Colab - for added power with the Colab interface and tools.
- - Run Jupyter on AWS instances with 2-64 cores and 1Gb to 1Tb of RAM.
+Jupyter is great but mantaining a stable installation and environment can be painful - especially when you want to use more advanced functionality. Easy Jupyter gives you a clean, up-to-date and feature-rich environment + running server in one command.
 
-## 1. Initial setup
+**Make Jupyter Great (Again)**
 
-- Install Docker and launch the docker Daemon. Note that the number of cores/RAM can be set under preferences in Docker. The resource constraints of docker will affect the resources available to Jupyter.
-- Clone this repository and place it into a location where you are comfortable keeping it for as long as you will use this project (we keep scripts in the repo rather than installing anything into bin folders).
-- cd into the repository on your local machine: `$ cd /path/to/repo`
-- Run `bash ./bin/install.sh && source ~/.bash_profile`. This will install the execution shim into your bash profile file and reload your terminal.
-  - If you get a permission error, you may need to make this file executable with `chmod +x ./bin/install.sh)`.
-  - If the test step below doesn't work, restart your terminal to manually reload from the bash profile file.
-- You can now use the `easy-jupyter` command line function to interact with Jupyter. Run `easy-jupyter test-config` to check that everything is set up right!.
+With Easy Jupyter, you get:
+ - Kernels for Python 3, Python 2 (coming soon), R and Julia.
+ - Seamless PDF export with improved templates for easy project submission.
+ - Pre-configured extensions for spell-check, python in markdown, live markdown previews etc
+ - Themes which improve the look and feel of notebooks.
+ - Pre-configured compatibility with Google Colab to run Colab notebooks with local resources.
+
+**Run Jupyter in the Cloud**
+
+Move Easy Jupyter from local to cloud execution with one command to access more CPUs, GPUs and RAM. Easy Jupyter will:
+
+- Help you manage the life-cycle of your AWS instance with minimal AWS know-how.
+- Keep your environment and config completely consistent across local and remote servers.
+- Allow you to connect to the remote Jupyter server without any manual authentication/routing.
+- Provide two way file sync to make moving data and code painless.
+
+**Run Large Experiments on Cloud Clusters**
+
+Easy Jupyter includes tools which make it easy to launch and connect to [Ray](https://github.com/ray-project/ray) clusters. [Ray](https://github.com/ray-project/ray) is a powerful tool for running Python jobs on clusters of machines. [Ray-Tune](https://ray.readthedocs.io/en/latest/tune.html) makes it easy to run experiments/searches over large parameter spaces on many machines - great for ML/Modeling.
+
+## 1. Installation
+
+**NOTE: Easy Jupyter is Mac/Linux only**. This will change soon.
+
+- Install Docker and launch the docker Daemon. Note that the number of cores/RAM can be set under advanced preferences in the Docker menu bar app. These settings control the resources available to Jupyter.
+
+- Clone this repository and cd into it: `git clone git@github.com:JoshBroomberg/easy-jupyter.git && cd easy-jupyter`
+
+- Run `bash install.sh && source ~/.bash_profile`. This will install the execution shim into your bash profile and reload your terminal.
+
+  - If you get a permission error, you may need to make this file executable with `chmod +x ./install.sh)`.
+  - You need to run `source ~/.bash_profile` in every terminal window which was open prior to install. It may be easier to simply restart the terminal.
+
+
+- You can now use the `easy-jupyter` command line function to interact with Jupyter. Run `easy-jupyter test-config` to check that everything is set up right!
+
+- If the test step doesn't work, restart your terminal and try again.
 
 ## 2. Running Jupyter Locally
 
-For the commands below to work, you must have the docker daemon turned on.
+For the commands below to work, you must have the docker daemon turned on. You should see a Docker icon in your menu bar.
 
-- Run `easy-jupyter notebook` to run Jupyter notebook locally. It should be available at `localhost:8888`.
-- You can also run `easy-jupyter lab` to run Jupyter Lab locally.
+- Run `easy-jupyter notebook` to run Jupyter notebook locally. The server will be available at `localhost:8888`.
+- Run `easy-jupyter lab` to run Jupyter Lab locally. It will be available in the same location.
 
-NOTE: the directory in which you run these commands will become the root directory for your notebook server. Any changes you make from the notebooks/server will persist in this directory. This isn't true for AWS, see section 4 below.
+NOTE: just like with Jupyter, the directory in which you run these commands will become the root directory for your notebook server. Any changes you make from the notebooks/server will reflect instantly in this directory. *This isn't true when running on AWS, see section 4 below*.
 
-## 3. Customizing Jupyter
+## 3. Running Jupyter on AWS
 
-A copy of the standard Jupyter Config is provided (with some tweaks) as part of this repo in the `jupyter_config` folder. This folder is mounted onto the jupyter container at run time. This allows for two kinds of customization.
+**NOTE: Running on AWS will incur costs. You should only use AWS if you are comfortable incurring these costs. Pricing for instance types per hour can be found [here](https://aws.amazon.com/ec2/pricing/on-demand/).**
 
- 1. Changes made from the Jupyter server settings - like activating extensions - are persisted beyond the container life-cycle and will be used on the next run.
+### 3A: Initializing an AWS instance
 
- 2. You can also change the settings in the local files in this repository by hand and have them used by Jupyter at run time. For example adding a new nbconvert template. You must restart the server for these changes to take effect.
+- Create an AWS account and/or log in to your AWS console. Navigate to IAM and create a user with **Programmatic Access** and **Administrator Permissions**.
+  - There is a guide for this [here](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_create.html#id_users_create_console).
+  - Don't forget to write down the access key and secret key in a safe place for the next step.
 
-## 4. Customizing the Docker Image
 
-By default, the runner scripts will pull a pre-built image from DockerHub. However, you may want to change your image to install new packages or change the runtime. You will need to rebuild the image for changes of this kind to be used by the runner commands.
-
-After following the instructions in the subsection below, run `easy-jupyter build`. This will rebuild the image. Following this, your image will be used by the runner commands **but only in local runs**. Running a custom image in AWS is not yet supported.
-
-To switch back to the original version of the image, you will need to destroy your custom image using the standard docker interface for deleting local images: see [here](https://lmgtfy.com/?q=deleting+docker+images)
-
-### 4A: Adding new python packages
-
-- Add the package to the `requirements.txt` file in the repo. Use the standard name==version format for this. You can create formatted requirements file contents from your local env with `pip freeze` and then copy-paste the output to the file.
-- Rebuild your image with `easy-jupyter build`.
-
-### 4B: Customizing the server
-
-You may use the docker file to make changes to the core installation of Jupyter or change anything else about the configuration of the runtime. Any changes here will also require rebuilds.
-
-## 5. Running on AWS
-
-NOTE: You should stay in the same active folder in your terminal for the complete life-cycle of the run. This allows for automatic data syncing.
-
-### 5A: Initializing an AWS instance
-
-- Create an AWS account and/or log in to your AWS console. Navigate to IAM and create a user with Administrator Access permissions. You should give this user programmatic AWS access when asked and write does the access key and secret code.
-- Create a file at `~/.aws/credentials` with content which follows the format below. You can do `touch ~/.aws/credentials` and then `nano ~/.aws/credentials`.
+- Create a file at `~/.aws/credentials` with content which follows the format below. You can run `nano ~/.aws/credentials`, paste in the text below and then press `ctrl+o`, `enter`, `ctrl+x`.
 
 ```
 [default]
@@ -69,33 +74,81 @@ aws_access_key_id = AKID1234567890
 aws_secret_access_key = MY-SECRET-KEY
 ```
 
-- To switch to AWS run `easy-jupyter use-aws`. This will create a new AWS instance of type t2.micro in the us-east-1 region.
-  - To change the region of your instance you will need to go into the source of the `use-aws` command in scripts.
-  - To change the instance size, use the AWS console - navigate to EC2 in the correct region, find the aws-sandbox instance and change the type by right clicking on the instance. The instance must be stopped for this change to work. You can also change the default size in the source code of this repo.
+- To switch to AWS run `easy-jupyter aws-here`. This will create a new AWS instance of type t2.micro in the us-east-1 region. COMING SOON: command line options for instance size and region.
 
-- Running this command will also replicate your current work folder onto the AWS instance. For now, you cannot skip this step so you should run `use-aws` in a folder which you want to be uploaded and/or a blank folder. This will also make it easier to pull files back from the AWS instance later. See the data management section below for more detail.
+- Running this command will set your current folder as the **AWS working directory** and replicate its content onto the AWS instance. You should run `aws-here` in the folder which you want to be your active work folder for this AWS session.
 
-- Following this command, the run commands will run Jupyter on AWS but make it available at localhost:8888. You must still do the run command before connecting to AWS. The `use-aws` command prepares the environment but does not run Jupyter.
+- Running `easy-jupyter notebook` will now run Jupyter on AWS and but make it available at `localhost:8888`.
 
-### 5B: Data Management/Workflow on AWS
+### 3B: Data Management/Workflow on AWS
 
-When running on AWS, all changes are persisted to the remote VM and not your local computer. By default, the top-level Jupyter workspace will mirror the folder you first ran the `use-aws` command in. Following the initial `use-aws`, you can do to further commands to manage data:
+When running on AWS, all changes are persisted to the remote VM and not your local computer. When you first start the AWS instance, the Jupyter workspace will mirror the folder you ran the `aws-here` command in. As you make changes on AWS, or locally, use the commands below to manage your files:
 
-- Run `easy-jupyter pull-from-aws` to pull the new file versions from AWS to your current directory. All local file versions will be overridden if the same file exists on the remote host. This command will download the files from active workspace folder on the VM (the last folder pushed via `push-to-aws`/`use-aws`). Note `pull-from-aws` pulls **the files** in the workspace but not the outer folder so the files will be replicated into the top level of your current directory. This works nicely with the suggested workflow below.
-
-- Run `easy-jupyter push-to-aws` to sync the current folder and its contents to the remote. All remote versions will be overridden. The push command will reset the active workspace for Jupyter to use the folder that was just pushed. This means you can use `push-to-aws` to change the remote instance to a new workspace. You will need to restart Jupyter if you do change the active workspace in this way.
-
-**Suggested Workflow**: create one project folder to use throughout the use/push/pull cycle. Do any local setup you want (usually nothing) and then run `use-aws` to replicate the work folder into AWS and set it as the active workspace. When you have done some work on the AWS instance, use `pull-from-aws` to persist the work back to your local folder. If you then make changes locally use `push-to-aws` to update any remote files before resuming work.
+- Run `easy-jupyter pull-from-aws` to pull new file versions from AWS to your work directory. All local file versions will be overridden if the same file exists on the remote host.
+  - This command will always pull the **AWS working directory** - the remote version of the folder where `aws-here` was called.
+  - This command pulls **the files** in the folder but not the outer folder so the files will placed directly in your local working directory.
 
 
+- Run `easy-jupyter push-to-aws` to sync the local working directory folder to AWS. All remote versions will be overridden.
 
-### 5C: Switching back to local
+**Suggested Workflow**:
 
-- When you're doneRun `easy-jupyter local-here` to switch back to your machine.
+- Create a project folder to use throughout the use/push/pull cycle.
+- Do any local setup you want (usually nothing) and then run `aws-here` to replicate the work folder into AWS and set it as the active working directory.
+- When you have done some work on the AWS instance, use `pull-from-aws` to persist the work back to your local folder.
+- If you then make changes locally use `push-to-aws` to update any remote files before resuming work.
 
-### 5D: Tearing-down AWS instances
+### 3C: Tearing-down AWS instances
 
-- You MUST run `easy-jupyter stop-aws` (stops the instance, preserving files) and/or `easy-jupyter destroy-aws` (deletes the instance, deleting all files) when you are done working to avoid incurring charges for the EC2 box. Stopping will stop most charges except a small amount for data storage.
+- You MUST stop/destroy your AWS instance to stop incurring costs at the end of a session.
+
+- Run `easy-jupyter stop-aws` to stop the instance but preserve remote files. Stopping will stop most charges except a small amount for data storage.
+
+- Run `easy-jupyter destroy-aws` to delete the instance and delete all remote files.
+
+### 3D: Switching back to local without stopping AWS
+
+- If you want to run locally at any time, you can run `easy-jupyter local-here`. You will need to stop the process on AWS with cntrl + C (as usual) and then run `easy-jupyter notebook`.
+
+- The directory where you run this command will become the active working directory.
+
+- You can then switch back to the same AWS instance with `easy-jupyter aws-here`.
+
+## 4. Terminal
+
+If you need a terminal within the Jupyter server context - for example to download datasets using wget - you can run the command `easy-jupyter terminal`
+
+**NOTE:** In order for the command below to work, you need to be running the notebook/lab server in a different terminal tab using the standard `easy-jupyter` commands.
+
+**NOTE:** Changes you make to files in the Jupyter Working Directory will be saved. But changes you make to the environment from this terminal **will not** persist after you shut down the container. Python packages or config changes should be made using the instructions below.
+
+## 5. Customizing Jupyter
+
+Easy Jupyter uses a pre-built image to run Jupyter. In order to install new packages or change how Jupyter is 'installed', you will need to create a new image. We provide commands which make this very straight forward:
+
+- When you make a change using the instructions below, you will need to run `easy-jupyter build-image` **once**. Your changes will then be used on every future run of Jupyter.
+
+- To switch back to the original version of the image, run `easy-jupyter destroy-image` or revert your changes and rebuild.
+
+**NOTE:** Changes to python packages and the Dockerfile will not reflect in AWS. Support for this is coming soon.
+
+### 5A: Adding new python packages
+
+- Add the package to the `requirements.txt` file located at `~/.easy_jupyter/requirements.txt`. Use the standard `name==version` format for adding packages.
+- You can create formatted requirements file contents from your local python env by running `pip freeze` and then copy-paste the output to the file.
+- Rebuild your image with `easy-jupyter build`.
+
+### 5B: Customizing the Runtime
+
+- You can edit the docker file at `~/.easy_jupyter/Dockerfile` to make changes to the core installation of Jupyter or change anything else about the configuration of the runtime. Any changes here will also require rebuilds.
+
+### 5C: Customizing Jupyter Config
+
+- A copy of the standard Jupyter Config files are provided (with tweaks) in the folder: `~/.easy_jupyter/jupyter_config`. This folder is mounted onto the jupyter container at run time so changes here **do not require rebuilds**.
+
+   1. Changes made from the Jupyter UI - like activating extensions - are persisted beyond the container life-cycle and will be used on the next run.
+
+   2. Changes made to the files in this folder are used by Jupyter at run time. For example, you could add a new nbconvert template in this folder and use it in server. You must restart the server for changes in the config to take effect.
 
 ## 6. Themes
 
@@ -117,14 +170,4 @@ This command is useful for setting the font sizes for code, text and output resp
 
 ```
 docker exec -it jupyter_server jt -t grade3 -fs 12 -tfs 12 -ofs 13
-```
-
-## 7. Terminal
-
-If you need a terminal within the container, you can run the command below. Note that most changes you make via this terminal **will not** persist after you shut down the container. Any changes to python packages/jupyter should be done through the config files in this repo so that they apply to all runs.
-
-In order for the command below to work, you need to be running the notebook/lab server in a different terminal tab using the standard `easy-jupyter` commands.
-
-```
-easy-jupyter terminal
 ```

@@ -1,6 +1,7 @@
 #!/bin/bash
 
 REMOTE_DATA_ROOT="/home/ubuntu/work"
-CONTAINER_DATA_PATH="/home/jovyan/work"
 JUPYTER_CONTAINER_NAME="jupyter_server"
+CONTAINER_DATA_PATH="/home/jovyan/work"
+JUPYTER_IMAGE_NAME="easyjupyter/easyjupyter"
 JUPYTER_CONFIG_FOLDER="jupyter_config"

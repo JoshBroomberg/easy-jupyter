@@ -1,0 +1,4 @@
+#!/bin/bash
+
+echo "Destroy local image"
+docker rmi $JUPYTER_IMAGE_NAME
