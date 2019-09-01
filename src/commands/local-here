@@ -1,8 +1,5 @@
 #!/bin/bash
 
-eval $(docker-machine env -u)
-
-ej-write-state AWS_ACTIVE false
 ej-write-state LOCAL_DATA_PATH ${PWD}
 ej-write-state JUPYTER_ROOT ${PWD}
 ej-write-state JUPYTER_CONFIG "$EASY_JUPYTER_PATH/$JUPYTER_CONFIG_FOLDER"

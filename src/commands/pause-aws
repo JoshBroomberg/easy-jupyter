@@ -1,0 +1,5 @@
+#!/bin/bash
+
+eval $(docker-machine env -u)
+
+ej-write-state AWS_ACTIVE false

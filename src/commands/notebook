@@ -1,9 +1,9 @@
 #!/bin/bash
 
 ej-read-state JUPYTER_ROOT
+ej-read-state AWS_ACTIVE
 
-if [ -z $JUPYTER_ROOT ]; then
-	echo "No Working Directory Set. Working Directory set to current directory."
+if [ $AWS_ACTIVE == 'false' ]; then
 	easy-jupyter local-here
 fi
 

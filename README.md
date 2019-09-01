@@ -4,7 +4,7 @@ Run Jupyter notebooks on your machine and in the cloud with one command.
 
 ## Why Easy Jupyter?
 
-Jupyter is great but mantaining a stable installation and environment can be painful - especially when you want to use more advanced functionality. Easy Jupyter gives you a clean, up-to-date and feature-rich environment + running server in one command.
+Jupyter is great but maintaining a stable installation and environment can be painful - especially when you want to use more advanced functionality. Easy Jupyter gives you a clean, up-to-date and feature-rich environment + running server in one command.
 
 **Make Jupyter Great (Again)**
 
@@ -108,11 +108,15 @@ When running on AWS, all changes are persisted to the remote VM and not your loc
 
 ### 3D: Switching back to local without stopping AWS
 
-- If you want to run locally at any time, you can run `easy-jupyter local-here`. You will need to stop the process on AWS with cntrl + C (as usual) and then run `easy-jupyter notebook`.
+If you want to run locally without stopping the AWS instance, do the following:
 
-- The directory where you run this command will become the active working directory.
+- Stop the Jupyter process on AWS with ctrl + C (as usual)
 
-- You can then switch back to the same AWS instance with `easy-jupyter aws-here`.
+- Then run `easy-jupyter pause-aws`.
+
+- Finally, run `easy-jupyter notebook` to start a local notebook server in your current location. As normal, the directory where you run this command will become the active working directory.
+
+- You can then switch back to the already running AWS instance with `easy-jupyter aws-here`. The location where this command is run will become your active remote directory as usual.
 
 ## 4. Terminal
 
