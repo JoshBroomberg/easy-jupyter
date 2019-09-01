@@ -32,13 +32,16 @@ Easy Jupyter includes tools which make it easy to launch and connect to [Ray](ht
 
 **NOTE: Easy Jupyter is Mac/Linux only**. This will change soon.
 
-- Install Docker and launch the docker Daemon. Note that the number of cores/RAM can be set under advanced preferences in the Docker menu bar app. These settings control the resources available to Jupyter.
+- Install Docker and launch the docker Daemon.
+  - The best way to install Docker is via the docker Desktop app. Find the mac install link [here](https://docs.docker.com/docker-for-mac/install/)
+  - To launch the Docker daemon with the Mac app, simply open the application and wait until the status in the menu bar shows that docker has launched.
+  - Note that the number of cores/RAM can be set under advanced preferences in the Docker menu bar app. These settings control the resources available to Jupyter.
 
 - Clone this repository and cd into it: `git clone git@github.com:JoshBroomberg/easy-jupyter.git && cd easy-jupyter`
 
 - Run `bash install.sh && source ~/.bash_profile`. This will install the execution shim into your bash profile and reload your terminal.
 
-  - If you get a permission error, you may need to make this file executable with `chmod +x ./install.sh)`.
+  - If you get a permission error, you may need to make this file executable with `chmod +x ./install.sh`.
   - You need to run `source ~/.bash_profile` in every terminal window which was open prior to install. It may be easier to simply restart the terminal.
 
 
