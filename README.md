@@ -62,7 +62,7 @@ NOTE: just like with Jupyter, the directory in which you run these commands will
 
 **NOTE: Running on AWS will incur costs. You should only use AWS if you are comfortable incurring these costs. Pricing for instance types per hour can be found [here](https://aws.amazon.com/ec2/pricing/on-demand/).**
 
-### 3A: Initializing an AWS instance
+### 3A: Setup an AWS Account and Provide Access (Once Off)
 
 - Create an AWS account and/or log in to your AWS console. Navigate to IAM and create a user with **Programmatic Access** and **Administrator Permissions**.
   - There is a guide for this [here](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_create.html#id_users_create_console).
@@ -76,6 +76,8 @@ NOTE: just like with Jupyter, the directory in which you run these commands will
 aws_access_key_id = AKID1234567890
 aws_secret_access_key = MY-SECRET-KEY
 ```
+
+### 3B: Initializing an AWS instance
 
 - To switch to AWS run `easy-jupyter aws-here`. This will create a new AWS instance of type t2.micro in the us-east-1 region. COMING SOON: command line options for instance size and region.
 
