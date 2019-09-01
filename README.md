@@ -32,13 +32,16 @@ Easy Jupyter includes tools which make it easy to launch and connect to [Ray](ht
 
 **NOTE: Easy Jupyter is Mac/Linux only**. This will change soon.
 
-- Install Docker and launch the docker Daemon. Note that the number of cores/RAM can be set under advanced preferences in the Docker menu bar app. These settings control the resources available to Jupyter.
+- Install Docker and launch the docker Daemon.
+  - The best way to install Docker is via the docker Desktop app. Find the mac install link [here](https://docs.docker.com/docker-for-mac/install/)
+  - To launch the Docker daemon with the Mac app, simply open the application and wait until the status in the menu bar shows that docker has launched.
+  - Note that the number of cores/RAM can be set under advanced preferences in the Docker menu bar app. These settings control the resources available to Jupyter.
 
 - Clone this repository and cd into it: `git clone git@github.com:JoshBroomberg/easy-jupyter.git && cd easy-jupyter`
 
 - Run `bash install.sh && source ~/.bash_profile`. This will install the execution shim into your bash profile and reload your terminal.
 
-  - If you get a permission error, you may need to make this file executable with `chmod +x ./install.sh)`.
+  - If you get a permission error, you may need to make this file executable with `chmod +x ./install.sh`.
   - You need to run `source ~/.bash_profile` in every terminal window which was open prior to install. It may be easier to simply restart the terminal.
 
 
@@ -59,7 +62,7 @@ NOTE: just like with Jupyter, the directory in which you run these commands will
 
 **NOTE: Running on AWS will incur costs. You should only use AWS if you are comfortable incurring these costs. Pricing for instance types per hour can be found [here](https://aws.amazon.com/ec2/pricing/on-demand/).**
 
-### 3A: Initializing an AWS instance
+### 3A: Setup an AWS Account and Provide Access (Once Off)
 
 - Create an AWS account and/or log in to your AWS console. Navigate to IAM and create a user with **Programmatic Access** and **Administrator Permissions**.
   - There is a guide for this [here](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_create.html#id_users_create_console).
@@ -73,6 +76,8 @@ NOTE: just like with Jupyter, the directory in which you run these commands will
 aws_access_key_id = AKID1234567890
 aws_secret_access_key = MY-SECRET-KEY
 ```
+
+### 3B: Initializing an AWS instance
 
 - To switch to AWS run `easy-jupyter aws-here`. This will create a new AWS instance of type t2.micro in the us-east-1 region. COMING SOON: command line options for instance size and region.
 

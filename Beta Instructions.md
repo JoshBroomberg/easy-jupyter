@@ -1,6 +1,6 @@
 # Beta Instructions
 
-Thanks for your interesting in helping to test Easy Jupyter!
+Thanks for your interest in helping to test Easy Jupyter!
 
 All the instructions you need to install and run (along with the code itself) are here: https://github.com/JoshBroomberg/easy-jupyter.
 
