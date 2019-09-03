@@ -180,3 +180,7 @@ This command is useful for setting the font sizes for code, text and output resp
 ```
 docker exec -it jupyter_server jt -t grade3 -fs 12 -tfs 12 -ofs 13
 ```
+
+## 7. Ray Clusters
+
+Coming Soon...
