@@ -33,7 +33,7 @@ function ej-write-state () {
   eval $__resultvar="'$2'"
 
   # write the state to file
-  touch statefile
+  touch $install_location/data/state_data/$statefile
   echo "$2" > $install_location/data/state_data/$statefile
 }
 

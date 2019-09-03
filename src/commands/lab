@@ -1,11 +1,12 @@
 #!/bin/bash
 
-ej-read-state JUPYTER_ROOT
 ej-read-state AWS_ACTIVE
 
 if [ $AWS_ACTIVE == 'false' ]; then
 	easy-jupyter local-here
 fi
+
+ej-read-state JUPYTER_ROOT
 
 docker run --rm -p 8888:8888 \
 	--name $JUPYTER_CONTAINER_NAME \
