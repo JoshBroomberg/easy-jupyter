@@ -1,3 +1,4 @@
 src/data/state_data/*
+!src/data/state_data/AWS_ACTIVE.dat
 .ipynb_checkpoints
 .DS_Store

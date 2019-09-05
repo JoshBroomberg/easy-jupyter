@@ -33,7 +33,7 @@ RUN pip install jupyterthemes && \
 
 # Initialize plotting config at start up
 # TODO: this doesn't work right now.
-COPY startup.ipy .ipython/profile_default/startup/
+# COPY startup.ipy .ipython/profile_default/startup/
 
 ## Download and install Lab extensions
 
