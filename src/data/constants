@@ -1,5 +1,6 @@
 #!/bin/bash
 
+REMOTE_MACHINE_NAME="aws-sandbox"
 REMOTE_DATA_ROOT="/home/ubuntu/work"
 JUPYTER_CONTAINER_NAME="jupyter_server"
 CONTAINER_DATA_PATH="/home/jovyan/work"

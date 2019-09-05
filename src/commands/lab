@@ -2,7 +2,7 @@
 
 ej-read-state AWS_ACTIVE
 
-if [ $AWS_ACTIVE == 'false' ]; then
+if [[ $AWS_ACTIVE = 'false' ]]; then
 	easy-jupyter local-here
 fi
 

@@ -4,10 +4,10 @@ echo "Transferring local files to remote machine"
 ej-read-state LOCAL_DATA_PATH
 
 # ensure the remote data root exists.
-docker-machine ssh aws-sandbox mkdir -p $REMOTE_DATA_ROOT
+docker-machine ssh $REMOTE_MACHINE_NAME mkdir -p $REMOTE_DATA_ROOT
 
 # copy the local data folder to the remote root folder.
-docker-machine scp -r $LOCAL_DATA_PATH aws-sandbox:$REMOTE_DATA_ROOT
+docker-machine scp -r $LOCAL_DATA_PATH $REMOTE_MACHINE_NAME:$REMOTE_DATA_ROOT
 
 # copy config
-docker-machine scp -r $EASY_JUPYTER_PATH/$JUPYTER_CONFIG_FOLDER aws-sandbox:$REMOTE_DATA_ROOT
+docker-machine scp -r $EASY_JUPYTER_PATH/$JUPYTER_CONFIG_FOLDER $REMOTE_MACHINE_NAME:$REMOTE_DATA_ROOT
