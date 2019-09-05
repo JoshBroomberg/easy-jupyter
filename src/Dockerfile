@@ -38,14 +38,17 @@ COPY startup.ipy .ipython/profile_default/startup/
 ## Download and install Lab extensions
 
 # Code formatting
-RUN jupyter labextension install @ryantam626/jupyterlab_code_formatter && \
+RUN jupyter labextension install @ryantam626/jupyterlab_code_formatter --no-build && \
     pip install jupyterlab_code_formatter && \
     jupyter serverextension enable --py jupyterlab_code_formatter  && \
     pip install yapf  && \
     pip install black
 
 # Spell checking
-RUN jupyter labextension install @ijmbarr/jupyterlab_spellchecker
+RUN jupyter labextension install @ijmbarr/jupyterlab_spellchecker --no-build
+
+# Rebuild Lab Assets to activate extensions
+RUN jupyter lab build
 
 ## Install from requirements.txt file
 COPY requirements.txt /tmp/

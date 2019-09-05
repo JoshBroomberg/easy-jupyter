@@ -1,4 +1,4 @@
 #!/bin/bash
 
 easy-jupyter stop-aws
-docker-machine rm aws-sandbox
+docker-machine rm $REMOTE_MACHINE_NAME

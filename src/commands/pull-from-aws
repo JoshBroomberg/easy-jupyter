@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Copy code files
-docker-machine scp -r aws-sandbox:$JUPYTER_ROOT/* $LOCAL_DATA_PATH
+docker-machine scp -r $REMOTE_MACHINE_NAME:$JUPYTER_ROOT/* $LOCAL_DATA_PATH
 
 # Copy config files
-docker-machine scp -r aws-sandbox:$REMOTE_DATA_ROOT/$JUPYTER_CONFIG_FOLDER/* \
+docker-machine scp -r $REMOTE_MACHINE_NAME:$REMOTE_DATA_ROOT/$JUPYTER_CONFIG_FOLDER/* \
   $EASY_JUPYTER_PATH/$JUPYTER_CONFIG_FOLDER

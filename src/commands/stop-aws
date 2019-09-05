@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "Stopping AWS machine"
-docker-machine stop aws-sandbox
+docker-machine stop $REMOTE_MACHINE_NAME
 
 echo "Switching back to local work context"
 ej-write-state AWS_ACTIVE false

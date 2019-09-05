@@ -1,17 +1,21 @@
 #!/bin/bash
 
+# If no machine, then create.
 if ! docker-machine ls -q | grep --quiet '^aws-sandbox$' ; then
-  docker-machine create --driver amazonec2 --amazonec2-open-port 8888 --amazonec2-region us-east-1 --amazonec2-instance-type t2.micro aws-sandbox
-else
-  docker-machine start aws-sandbox
-  docker-machine regenerate-certs aws-sandbox --force
+  docker-machine create --driver amazonec2 --amazonec2-open-port 8888 --amazonec2-region us-east-1 --amazonec2-instance-type t2.micro $REMOTE_MACHINE_NAME
+fi
+
+# If not running, then start
+if [[ $(docker-machine ls -q --filter name=$REMOTE_MACHINE_NAME --filter state=Running) = "" ]]; then
+  docker-machine start $REMOTE_MACHINE_NAME
+  docker-machine regenerate-certs $REMOTE_MACHINE_NAME --force
 fi
 
 echo "AWS Machine IP:"
-echo $(docker-machine ip aws-sandbox)
+echo $(docker-machine ip $REMOTE_MACHINE_NAME)
 
 echo "Using AWS Machine for Docker:"
-eval $(docker-machine env aws-sandbox)
+eval $(docker-machine env $REMOTE_MACHINE_NAME)
 
 ej-write-state AWS_ACTIVE true
 
@@ -26,8 +30,8 @@ echo "Pushing current folder to AWS"
 easy-jupyter push-to-aws
 
 echo "Opening local port 8888 and forwarding to remote machine"
-docker-machine ssh aws-sandbox -f -N -L 8888:localhost:8888
+docker-machine ssh $REMOTE_MACHINE_NAME -f -N -L 8888:localhost:8888
 
 echo "NOTE: you are now running docker on AWS. You should use 'easy-jupyter notebook/lab' to boot a jupyter process"
-echo "NOTE: when finished, you must run: 'easy-jupyter stop-aws/destroy-aws' to turn off/delete the instance!"
-echo "WARNING: data is only persisted remotely on the AWS instance. Run 'easy-jupyter pull-from-aws' to persist the data locally."
+echo "NOTE: you must run: 'easy-jupyter stop-aws/destroy-aws' when you're finished working!"
+echo "WARNING: data is persisted on the AWS instance ONLY. Run 'easy-jupyter pull-from-aws' to persist data locally."

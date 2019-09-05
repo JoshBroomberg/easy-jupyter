@@ -1,3 +1,18 @@
 #!/bin/bash
 
+ej-read-state AWS_ACTIVE
+
+if [[ $AWS_ACTIVE = 'true' ]]; then
+  eval $(docker-machine env $REMOTE_MACHINE_NAME)
+  EJ_ENV="AWS"
+else
+  eval $(docker-machine env -u)
+  EJ_ENV="local"
+fi
+
+if [[ $(docker container ls -q --filter name=$JUPYTER_CONTAINER_NAME) = "" ]]; then
+  echo "ERROR: You are not running a jupyter process on your $EJ_ENV machine. Cannot run terminal..."
+  return 126
+fi
+
 docker exec -it $JUPYTER_CONTAINER_NAME /bin/bash
