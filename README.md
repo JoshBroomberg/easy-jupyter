@@ -113,6 +113,8 @@ When running on AWS, all changes are persisted to the remote VM and not your loc
 
 ### 3D: Switching back to local without stopping AWS
 
+**WARNING:** the steps below will kill all active ssh sessions on your machine. This is only an issue if you are doing something else with ssh while using Easy Jupyter. This is very unlikely to be something you will do. We are working on a better solution for this.
+
 If you want to run locally without stopping the AWS instance, do the following:
 
 - Stop the Jupyter process on AWS with ctrl + C (as usual)
