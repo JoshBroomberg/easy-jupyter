@@ -32,6 +32,7 @@ easy-jupyter push-to-aws
 echo "Opening local port 8888 and forwarding to remote machine"
 docker-machine ssh $REMOTE_MACHINE_NAME -f -N -L 8888:localhost:8888
 
+printf "\n\n=====================\n\n"
 echo "NOTE: you are now running docker on AWS. You should use 'easy-jupyter notebook/lab' to boot a jupyter process"
 echo "NOTE: you must run: 'easy-jupyter stop-aws/destroy-aws' when you're finished working!"
 echo "WARNING: data is persisted on the AWS instance ONLY. Run 'easy-jupyter pull-from-aws' to persist data locally."

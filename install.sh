@@ -7,9 +7,20 @@ INSTALL_LOCATION="${HOME}/.easy_jupyter"
 absolute_shim_location=$INSTALL_LOCATION/$RELATIVE_SHIM_LOCATION
 
 echo "Copying source..."
+
 # Install all src into permanent home
 mkdir -p $INSTALL_LOCATION/
 cp -r src/* $INSTALL_LOCATION
+
+# Initialize state
+echo "Initializing state..."
+AWS_STATE_LOCATION="$INSTALL_LOCATION/data/state_data/AWS_ACTIVE.dat"
+if test -f $AWS_STATE_LOCATION; then
+  echo "AWS state exists, not overwriting..."
+else
+  echo "AWS state does not exist, creating..."
+  echo "false" >> $AWS_STATE_LOCATION
+fi
 
 echo "Configuring execution shim..."
 # Customize the execution shim and install into bahs profile

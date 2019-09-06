@@ -1,13 +1,19 @@
 #!/bin/bash
 
-echo "Transferring local files to remote machine"
+echo "Transferring local files to remote machine..."
 ej-read-state LOCAL_DATA_PATH
 
 # ensure the remote data root exists.
 docker-machine ssh $REMOTE_MACHINE_NAME mkdir -p $REMOTE_DATA_ROOT
 
+printf "Transferring local work files...\n"
 # copy the local data folder to the remote root folder.
 docker-machine scp -r $LOCAL_DATA_PATH $REMOTE_MACHINE_NAME:$REMOTE_DATA_ROOT
 
+printf "\n\nTransferring jupyter config files...\n"
 # copy config
 docker-machine scp -r $EASY_JUPYTER_PATH/$JUPYTER_CONFIG_FOLDER $REMOTE_MACHINE_NAME:$REMOTE_DATA_ROOT
+
+# printf "\n\nTransferring docker files...\n"
+# # copy docker environment
+# docker-machine scp -r $EASY_JUPYTER_PATH/$DOCKER_FOLDER $REMOTE_MACHINE_NAME:$REMOTE_DATA_ROOT
