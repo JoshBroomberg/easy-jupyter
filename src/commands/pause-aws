@@ -3,3 +3,8 @@
 eval $(docker-machine env -u)
 
 ej-write-state AWS_ACTIVE false
+
+# Close the SSH tunnels
+# TODO: this needs to be more specific. We can't kill all ssh on the machine.
+# But this is ok for now.
+killall ssh
