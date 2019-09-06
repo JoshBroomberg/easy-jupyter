@@ -135,12 +135,19 @@ If you need a terminal within the Jupyter server context - for example to downlo
 
 Easy Jupyter uses a pre-built image to run Jupyter. In order to install new packages or change how Jupyter is 'installed', you will need to create a new image. We provide commands which make this very straight forward:
 
-- When you make a change using the instructions below, you will need to run `easy-jupyter build-image` **once**. Your changes will then be used on every future run of Jupyter.
+- When you make a change using the instructions below, you will need to run `easy-jupyter build-image` **once** per machine. Your changes will then be used on every future run of Jupyter on that machine.
 
-- To switch back to the original version of the image, run `easy-jupyter destroy-image`.
-  - You should revert your changes to the Dockerfile/requirements.txt if you no longer need them. Feel free to copy the latest available Dockerfile from [here](https://raw.githubusercontent.com/JoshBroomberg/easy-jupyter/master/src/docker/Dockerfile) and `requirements.txt` from [here](https://raw.githubusercontent.com/JoshBroomberg/easy-jupyter/master/src/docker/requirements.txt).
+- **NOTE:** as stated above, you will need to run the build command once per machine. This means each time you run `destroy-aws` and then `aws-here` (creating a new AWS instance) you will need to run the `build-image` command.
 
-**NOTE:** Changes to python packages and the Dockerfile will not reflect in AWS. Support for this is coming soon.
+- We hope to improve this in the future to allow all machines to use the same image version.
+
+**Switching back to the vanilla image...**
+
+- To switch back to the original version of the image, run `easy-jupyter destroy-image`. This will remove your local, custom image.
+
+- Per the logic above, you need to run this once per machine. So, if you ran the destroy locally, you will need to run it again after activating AWS (if you built your custom image for AWS). It may be easiest to simply destroy and recreate the AWS machine for a clean start.
+
+- You should revert your changes to the Dockerfile and/or requirements.txt if you no longer need them. Feel free to copy the latest available Dockerfile from [here](https://raw.githubusercontent.com/JoshBroomberg/easy-jupyter/master/src/docker/Dockerfile) and `requirements.txt` from [here](https://raw.githubusercontent.com/JoshBroomberg/easy-jupyter/master/src/docker/requirements.txt).
 
 ### 5A: Adding new python packages
 
