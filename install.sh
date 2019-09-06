@@ -55,8 +55,14 @@ function easy-jupyter () {
 }
 EOF
 
+echo "Installing AWS command line using default pip"
+pip install awscli --upgrade --user
+package_location=$(python -m site --user-base)
+
 echo "Modifying bash profile..."
-# Only add the shim to the profile if it doesn't exist already.
+
+# Only add the shim/aws path mod to the profile if they don't exist already.
 grep -qxF "source $absolute_shim_location" ~/.bash_profile || echo "source $absolute_shim_location" >> ~/.bash_profile
+grep -qxF "export PATH=$package_location:\$PATH" ~/.bash_profile || echo "export PATH=$package_location:\$PATH" >> ~/.bash_profile
 
 echo "Done install. Run  'source ~/.bash_profile' in all open terminal windows."

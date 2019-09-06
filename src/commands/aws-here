@@ -2,14 +2,47 @@
 
 # If no machine, then create.
 if ! docker-machine ls -q | grep --quiet '^aws-sandbox$' ; then
-  docker-machine create --driver amazonec2 --amazonec2-open-port 8888 --amazonec2-region us-east-1 --amazonec2-instance-type t2.micro $REMOTE_MACHINE_NAME
+
+  printf "Creating new AWS instance...\n\n"
+  echo "Type the AWS instance size that you want, [ENTER for t2.micro]:"
+  echo "See link for types: https://aws.amazon.com/ec2/instance-types/"
+  read aws_instance_type
+
+  if [[ -z $aws_instance_type ]]; then
+    aws_instance_type="t2.micro"
+  fi
+
+  echo "Type the AWS region that you want, [ENTER for us-east-1]:"
+  read aws_region
+
+  if [[ -z $aws_region ]]; then
+    aws_region="us-east-1"
+  fi
+
+  # Extract a valid VPC and subnet from the selected region
+  # in any availability zone. Yikes this is ugly code...
+  parsed_subnet_data=$(aws ec2 describe-subnets --region=$aws_region | \
+    python -c "import json,sys;obj=json.load(sys.stdin);print obj['Subnets'][0]['VpcId'];print obj['Subnets'][0]['AvailabilityZone'][-1];print obj['Subnets'][0]['SubnetId'];")
+  subnet_data_list=($parsed_subnet_data) # to array
+
+  docker-machine create --driver amazonec2 \
+    --amazonec2-open-port 8888 \
+    --amazonec2-region $aws_region \
+    --amazonec2-vpc-id ${subnet_data_list[0]} \
+    --amazonec2-zone ${subnet_data_list[1]} \
+    --amazonec2-subnet-id  ${subnet_data_list[2]} \
+    --amazonec2-instance-type $aws_instance_type \
+    $REMOTE_MACHINE_NAME
 fi
 
 # If not running, then start
 if [[ $(docker-machine ls -q --filter name=$REMOTE_MACHINE_NAME --filter state=Running) = "" ]]; then
+  printf "Starting AWS instance...\n\n"
   docker-machine start $REMOTE_MACHINE_NAME
   docker-machine regenerate-certs $REMOTE_MACHINE_NAME --force
 fi
+
+printf "\n\nDone AWS boot up...\n\n"
 
 echo "AWS Machine IP:"
 echo $(docker-machine ip $REMOTE_MACHINE_NAME)
@@ -19,17 +52,19 @@ eval $(docker-machine env $REMOTE_MACHINE_NAME)
 
 ej-write-state AWS_ACTIVE true
 
-echo "Setting current folder as Working Directory"
+printf "\n\nConfiguring AWS machine...\n\n"
+
+echo "Setting current folder as Working Directory..."
 ej-write-state LOCAL_DATA_PATH ${PWD}
 ej-write-state JUPYTER_ROOT "$REMOTE_DATA_ROOT/${PWD##*/}"
 ej-write-state JUPYTER_CONFIG "$REMOTE_DATA_ROOT/$JUPYTER_CONFIG_FOLDER"
 
 # the push command relies on the local folder in a bad way. This Should
 # be moved to state.
-echo "Pushing current folder to AWS"
+echo "Pushing current folder to AWS..."
 easy-jupyter push-to-aws
 
-echo "Opening local port 8888 and forwarding to remote machine"
+echo "Opening local port 8888 and forwarding to remote machine..."
 docker-machine ssh $REMOTE_MACHINE_NAME -f -N -L 8888:localhost:8888
 
 printf "\n\n=====================\n\n"
