@@ -137,19 +137,20 @@ Easy Jupyter uses a pre-built image to run Jupyter. In order to install new pack
 
 - When you make a change using the instructions below, you will need to run `easy-jupyter build-image` **once**. Your changes will then be used on every future run of Jupyter.
 
-- To switch back to the original version of the image, run `easy-jupyter destroy-image` or revert your changes and rebuild.
+- To switch back to the original version of the image, run `easy-jupyter destroy-image`.
+  - You should revert your changes to the Dockerfile/requirements.txt if you no longer need them. Feel free to copy the latest available Dockerfile from [here](https://raw.githubusercontent.com/JoshBroomberg/easy-jupyter/master/src/docker/Dockerfile) and `requirements.txt` from [here](https://raw.githubusercontent.com/JoshBroomberg/easy-jupyter/master/src/docker/requirements.txt).
 
 **NOTE:** Changes to python packages and the Dockerfile will not reflect in AWS. Support for this is coming soon.
 
 ### 5A: Adding new python packages
 
-- Add the package to the `requirements.txt` file located at `~/.easy_jupyter/requirements.txt`. Use the standard `name==version` format for adding packages.
+- Add the package to the `requirements.txt` file located at `~/.easy_jupyter/docker/requirements.txt`. Use the standard `name==version` format for adding packages.
 - You can create formatted requirements file contents from your local python env by running `pip freeze` and then copy-paste the output to the file.
 - Rebuild your image with `easy-jupyter build`.
 
 ### 5B: Customizing the Runtime
 
-- You can edit the docker file at `~/.easy_jupyter/Dockerfile` to make changes to the core installation of Jupyter or change anything else about the configuration of the runtime. Any changes here will also require rebuilds.
+- You can edit the docker file at `~/.easy_jupyter/docker/Dockerfile` to make changes to the core installation of Jupyter or change anything else about the configuration of the runtime. Any changes here will also require rebuilds.
 
 ### 5C: Customizing Jupyter Config
 

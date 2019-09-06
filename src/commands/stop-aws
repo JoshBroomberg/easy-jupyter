@@ -1,10 +1,11 @@
 #!/bin/bash
 
+echo "Switching back to local work context"
+easy-jupyter pause-aws
+
 echo "Stopping AWS machine"
 docker-machine stop $REMOTE_MACHINE_NAME
 
-echo "Switching back to local work context"
-ej-write-state AWS_ACTIVE false
 # NOTE: Write blank state to run variables so that next run will trigger
 # reset to local mode in current directory.
 ej-write-state JUPYTER_ROOT

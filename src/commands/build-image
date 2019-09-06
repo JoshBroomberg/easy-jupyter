@@ -1,7 +1,8 @@
 #!/bin/bash
 
-echo "Building image locally"
-if docker build --rm -t easyjupyter/easyjupyter $EASY_JUPYTER_PATH; then
-  echo "Attempting push to remote repo"
-  docker push easyjupyter/easyjupyter:latest
-fi
+echo "Building image and attempting push..."
+
+BUILD_COMMAND="docker build --rm -t easyjupyter/easyjupyter"
+PUSH_COMMAND="docker push easyjupyter/easyjupyter:latest"
+DOCKER_LOCATION=$EASY_JUPYTER_PATH/$DOCKER_FOLDER
+eval $BUILD_COMMAND $DOCKER_LOCATION "&&" $PUSH_COMMAND
