@@ -4,8 +4,10 @@ FROM jupyter/tensorflow-notebook:latest
 ## Root commands
 USER root
 
-RUN apt-get update && \
-  apt-get install rsync
+RUN apt-get -y update && \
+  apt-get install -y rsync && \
+  apt-get install -yq less sudo octave && \
+  apt-get clean
 
 ## User Commands: set Jovyan as user for rest of script
 USER $NB_USER

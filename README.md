@@ -9,7 +9,7 @@ Jupyter is great but maintaining a stable installation and environment can be pa
 **Make Jupyter Great (Again)**
 
 With Easy Jupyter, you get:
- - Kernels for Python 3, Python 2 (coming soon), R and Julia.
+ - Kernels for Python 3, Python 2 (coming soon), Octave, R and Julia.
  - Seamless PDF export with improved templates for easy project submission.
  - Pre-configured extensions for spell-check, python in markdown, live markdown previews etc
  - Themes which improve the look and feel of notebooks.
