@@ -155,7 +155,7 @@ Easy Jupyter uses a pre-built image to run Jupyter. In order to install new pack
 
 - Add the package to the `requirements.txt` file located at `~/.easy_jupyter/docker/requirements.txt`. Use the standard `name==version` format for adding packages.
 - You can create formatted requirements file contents from your local python env by running `pip freeze` and then copy-paste the output to the file.
-- Rebuild your image with `easy-jupyter build`.
+- Rebuild your image with `easy-jupyter build-image`.
 
 ### 5B: Customizing the Runtime
 
