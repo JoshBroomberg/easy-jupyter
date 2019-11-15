@@ -4,11 +4,19 @@ ej-read-state AWS_ACTIVE
 
 if [[ $AWS_ACTIVE = 'false' ]]; then
 	easy-jupyter local-here
+	GPU_FRAGMENT=""
+fi
+
+if [[ $AWS_ACTIVE = 'true' ]]; then
+	ej-read-state AWS_GPU_MODE
+	if [[ $AWS_GPU_MODE = 'true' ]]; then
+		GPU_FRAGMENT="--gpus all"
+	fi
 fi
 
 ej-read-state JUPYTER_ROOT
 
-docker run --rm -p 8888:8888  \
+docker run $GPU_FRAGMENT --rm -p 8888:8888  \
 	--name $JUPYTER_CONTAINER_NAME \
 	-v $JUPYTER_ROOT:$CONTAINER_DATA_PATH \
 	-v $JUPYTER_CONFIG:/home/jovyan/.jupyter \
