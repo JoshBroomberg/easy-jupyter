@@ -1,12 +1,11 @@
 ## Start from a core stack version
-FROM jupyter/tensorflow-notebook:latest
+FROM easyjupyter/jupyter-ds-gpu:latest
 
 ## Root commands
 USER root
 
 RUN apt-get -y update && \
   apt-get install -y rsync && \
-  apt-get install -yq less sudo octave && \
   apt-get clean
 
 ## User Commands: set Jovyan as user for rest of script
@@ -27,16 +26,6 @@ RUN pip install jupyter_http_over_ws && \
 RUN pip install nb_pdf_template && \
     python -m nb_pdf_template.install
 
-## Install Jupyter Themes
-
-# Install themes
-RUN pip install jupyterthemes && \
-  jt -t grade3
-
-# Initialize plotting config at start up
-# TODO: this doesn't work right now.
-# COPY startup.ipy .ipython/profile_default/startup/
-
 ## Download and install Lab extensions
 
 # Code formatting
@@ -51,6 +40,16 @@ RUN jupyter labextension install @ijmbarr/jupyterlab_spellchecker --no-build
 
 # Rebuild Lab Assets to activate extensions
 RUN jupyter lab build
+
+## Install Jupyter Themes
+
+# Install themes
+RUN pip install jupyterthemes && \
+  jt -T -t grade3
+
+# Initialize plotting config at start up
+# TODO: this doesn't work right now.
+# COPY startup.ipy .ipython/profile_default/startup/
 
 ## Install from requirements.txt file
 COPY requirements.txt /tmp/

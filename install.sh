@@ -19,6 +19,8 @@ if test -f $AWS_STATE_LOCATION; then
   echo "AWS state exists, not overwriting..."
 else
   echo "AWS state does not exist, creating..."
+  mkdir -p $INSTALL_LOCATION/data/state_data/
+  touch $AWS_STATE_LOCATION
   echo "false" >> $AWS_STATE_LOCATION
 fi
 
