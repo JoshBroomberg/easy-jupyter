@@ -32,6 +32,7 @@ if ! docker-machine ls -q | grep --quiet '^aws-sandbox$' ; then
     --amazonec2-zone ${subnet_data_list[1]} \
     --amazonec2-subnet-id  ${subnet_data_list[2]} \
     --amazonec2-instance-type $aws_instance_type \
+    --amazonec2-root-size "64" \
     $REMOTE_MACHINE_NAME
 fi
 
