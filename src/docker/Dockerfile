@@ -13,6 +13,7 @@ RUN sudo apt-get -y update && \
   #sudo apt-get install -y r-base-dev && \
   sudo apt-get clean
 
+# Configure R 3.6
 # https://cran.r-project.org/bin/linux/ubuntu/
 RUN echo "deb https://cloud.r-project.org/bin/linux/ubuntu xenial-cran35/" >> /etc/apt/sources.list
 RUN echo "deb http://mirror.enzu.com/ubuntu/ bionic-backports main restricted universe" >> /etc/apt/sources.list
@@ -31,7 +32,8 @@ RUN sudo Rscript /tmp/r_packages.R
 ## User Commands: set Jovyan as user for rest of script
 USER $NB_USER
 
-# Upgrade Jupyter Notebook/Lab
+## Upgrade Jupyter Notebook/Lab
+
 RUN pip install --upgrade jupyterlab && pip install --upgrade notebook && \
   ## Download and enable Notebook extensions
   pip install --upgrade jupyter_contrib_nbextensions && \
@@ -52,16 +54,16 @@ RUN pip install --upgrade jupyterlab && pip install --upgrade notebook && \
 
 ## Download and install Lab extensions
 
-#RUN jupyter labextension install @ryantam626/jupyterlab_code_formatter --no-build && \
-# Code formatting
-#    pip install jupyterlab_code_formatter && \
-#    jupyter serverextension enable --py jupyterlab_code_formatter  && \
-#    pip install yapf  && \
-#    pip install black && \
-#Spell checking
-#    jupyter labextension install @ijmbarr/jupyterlab_spellchecker --no-build && \
-# Build
-#    jupyter lab build
+RUN jupyter labextension install @ryantam626/jupyterlab_code_formatter --no-build && \
+    ## Code formatting
+    pip install jupyterlab_code_formatter && \
+    jupyter serverextension enable --py jupyterlab_code_formatter  && \
+    pip install yapf  && \
+    pip install black && \
+    ## Spell checking
+    jupyter labextension install @ijmbarr/jupyterlab_spellchecker --no-build && \
+    ## Build
+    jupyter lab build
 
 ## Install python packages from requirements.txt file
 COPY requirements.txt /tmp/
@@ -69,5 +71,6 @@ RUN pip install --requirement /tmp/requirements.txt && \
     fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER
 
+# Set destination for tmp R library installation.
 RUN mkdir -p /home/jovyan/lib/R/packages
 ENV R_LIBS_USER=/home/jovyan/lib/R/packages
