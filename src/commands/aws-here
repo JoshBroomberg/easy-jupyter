@@ -35,7 +35,7 @@ if ! docker-machine ls -q | grep --quiet '^aws-sandbox$' ; then
     --amazonec2-root-size "64" \
     $REMOTE_MACHINE_NAME
 
-  echo "Configuring GPU access..."
+  echo "Configuring GPU access for docker..."
   docker-machine ssh $REMOTE_MACHINE_NAME << EOF
   distribution=\$(. /etc/os-release;echo \$ID\$VERSION_ID)
   curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | sudo apt-key add -
