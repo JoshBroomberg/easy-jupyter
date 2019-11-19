@@ -9,8 +9,6 @@ RUN sudo apt-get -y update && \
   sudo apt-get install -y software-properties-common && \
   sudo apt-get install -y libcurl4-openssl-dev libssl-dev && \
   sudo apt-get install -y libxml2 libxml2-dev && \
-  #sudo apt-get install -y r-base && \
-  #sudo apt-get install -y r-base-dev && \
   sudo apt-get clean
 
 # Configure R 3.6
@@ -24,10 +22,6 @@ RUN sudo apt update && \
   sudo apt-get install -y r-base-dev && \
   sudo apt install -y r-cran-devtools r-cran-roxygen2 && \
   sudo apt-get clean
-
-## Configure R
-COPY r_packages.R /tmp
-RUN sudo Rscript /tmp/r_packages.R
 
 ## User Commands: set Jovyan as user for rest of script
 USER $NB_USER
@@ -71,6 +65,11 @@ RUN pip install --requirement /tmp/requirements.txt && \
     fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER
 
-# Set destination for tmp R library installation.
+## Set destination for tmp R library installation.
 RUN mkdir -p /home/jovyan/lib/R/packages
 ENV R_LIBS_USER=/home/jovyan/lib/R/packages
+
+## Install R packages.
+USER root
+COPY r_packages.R /tmp
+RUN sudo Rscript /tmp/r_packages.R

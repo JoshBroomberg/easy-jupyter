@@ -35,16 +35,21 @@ if ! docker-machine ls -q | grep --quiet '^aws-sandbox$' ; then
     --amazonec2-root-size "64" \
     $REMOTE_MACHINE_NAME
 
-  echo "Configuring GPU access for docker..."
-  docker-machine ssh $REMOTE_MACHINE_NAME << EOF
-  distribution=\$(. /etc/os-release;echo \$ID\$VERSION_ID)
-  curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | sudo apt-key add -
-  curl -s -L https://nvidia.github.io/nvidia-docker/\$distribution/nvidia-docker.list | sudo tee /etc/apt/sources.list.d/nvidia-docker.list
-  sudo apt-get update && sudo apt-get install -y nvidia-container-toolkit
-  sudo apt-get remove -y nvidia-384 ; sudo apt-get install -y nvidia-384
-  sudo systemctl restart docker
+    if [[ $aws_instance_type == p* ]]; then
+      echo "Configuring docker for GPU access..."
+      docker-machine ssh $REMOTE_MACHINE_NAME << EOF
+      distribution=\$(. /etc/os-release;echo \$ID\$VERSION_ID)
+      curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | sudo apt-key add -
+      curl -s -L https://nvidia.github.io/nvidia-docker/\$distribution/nvidia-docker.list | sudo tee /etc/apt/sources.list.d/nvidia-docker.list
+      sudo apt-get update && sudo apt-get install -y nvidia-container-toolkit
+      sudo apt-get remove -y nvidia-384 ; sudo apt-get install -y nvidia-384
+      sudo systemctl restart docker
 EOF
-  ej-write-state AWS_GPU_MODE true
+      ej-write-state AWS_GPU_MODE true
+    else
+      echo "Configuring docker for CPU access..."
+      ej-write-state AWS_GPU_MODE false
+    fi
 fi
 
 # If not running, then start

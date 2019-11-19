@@ -1,6 +1,8 @@
 #!/bin/bash
 
 # Copy code files
+ej-read-state JUPYTER_ROOT
+ej-read-state LOCAL_DATA_PATH
 docker-machine scp -r $REMOTE_MACHINE_NAME:$JUPYTER_ROOT/* $LOCAL_DATA_PATH
 
 # Copy config files

@@ -19,7 +19,7 @@ pkgLoad <- function(packages) {
 
 }
 
-pkgLoad(c("plumbr"))
+pkgLoad(c())
 
 library(devtools)
 devtools::install_github("soerenkuenzel/causalToolbox")
