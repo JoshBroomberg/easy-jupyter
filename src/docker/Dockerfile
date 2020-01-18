@@ -5,6 +5,7 @@ FROM easyjupyter/jupyter-ds-gpu:latest
 USER root
 
 RUN sudo apt-get -y update && \
+  sudo apt-get install texlive-generic-extra && \
   sudo apt-get install -y rsync && \
   sudo apt-get install -y software-properties-common && \
   sudo apt-get install -y libcurl4-openssl-dev libssl-dev && \
