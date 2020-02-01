@@ -16,7 +16,9 @@ fi
 
 ej-read-state JUPYTER_ROOT
 
-docker run $GPU_FRAGMENT --rm -p 8888:8888  \
+docker run $GPU_FRAGMENT --rm \
+	-p 8888:8888  \
+	-p 8000:8000  \
 	--name $JUPYTER_CONTAINER_NAME \
 	-v $JUPYTER_ROOT:$CONTAINER_DATA_PATH \
 	-v $JUPYTER_CONFIG:/home/jovyan/.jupyter \
