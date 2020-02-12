@@ -3,7 +3,7 @@
     "nbserver_extensions": {
       "jupyter_nbextensions_configurator": true,
       "jupyter_http_over_ws": true,
-      "jupyterlab_code_formatter": true
+      "jupyterlab_code_formatter": false
     },
     "extra_template_paths": [
         "/home/jovyan/.jupyter/templates"

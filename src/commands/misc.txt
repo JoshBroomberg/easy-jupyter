@@ -1,0 +1,42 @@
+# Build
+docker build --rm -t easyjupyter/easyjupyter . && docker push easyjupyter/easyjupyter:latest
+
+# Create
+docker-machine create --driver amazonec2 \
+  --amazonec2-open-port 8888 \
+  --amazonec2-region ap-southeast-1 \
+  --amazonec2-instance-type c5.9xlarge \
+  --amazonec2-root-size "64" \
+  aws-docker
+
+# Start
+docker-machine start aws-docker && docker-machine regenerate-certs aws-docker --force
+
+# Connect
+eval $(docker-machine env aws-docker) && docker-machine ssh aws-docker -f -N -L 8888:localhost:8888
+
+# copy the local data folder to the remote root folder.
+docker-machine ssh aws-docker mkdir -p /home/ubuntu/work
+docker-machine scp -r -d . aws-docker:/home/ubuntu/work
+
+# copy config
+docker-machine scp -r -d /Users/joshbroomberg/Documents/easy-jupyter/src/jupyter_config/ aws-docker:/home/ubuntu
+
+# run
+docker run --rm \
+	-p 8888:8888  \
+	--name jupyter_server \
+	-v /home/ubuntu/work:/home/jovyan/work \
+  -v /home/ubuntu/jupyter_config:/home/jovyan/.jupyter \
+	-v /tmp:/tmp \
+	easyjupyter/easyjupyter start.sh jupyter notebook \
+	--NotebookApp.token='' \
+	--NotebookApp.notebook_dir='~/work' \
+	--NotebookApp.ip='0.0.0.0' \
+	--NotebookApp.allow_origin='https://colab.research.google.com' \
+	--NotebookApp.port_retries=0
+
+# disconnect
+docker-machine scp -r -d aws-docker:/home/ubuntu/work/* .
+
+eval $(docker-machine env -u)

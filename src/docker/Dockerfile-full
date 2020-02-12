@@ -1,5 +1,5 @@
 ## Start from a core stack version
-FROM jupyter/datascience-notebook
+FROM easyjupyter/jupyter-ds-gpu:latest
 
 ## Root commands
 USER root
@@ -17,15 +17,11 @@ RUN sudo apt-get -y update && \
 RUN echo "deb https://cloud.r-project.org/bin/linux/ubuntu xenial-cran35/" >> /etc/apt/sources.list
 RUN echo "deb http://mirror.enzu.com/ubuntu/ bionic-backports main restricted universe" >> /etc/apt/sources.list
 RUN sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
-RUN sudo add-apt-repository ppa:marutter/c2d4u3.5 && \
-  sudo add-apt-repository "deb http://ftp.ubuntu-tw.net/ubuntu/ bionic main" && \
-  sudo add-apt-repository "deb http://ftp.ubuntu-tw.net/ubuntu/ xenial main" && \
-  sudo apt update
-
-RUN sudo apt-get install -y libcurl3 libpng12-0 libreadline6 && \
-  sudo apt-get install -y r-base r-base-core r-recommended && \
-#  sudo apt-get install -y r-base-dev && \
-#  sudo apt install -y r-cran-devtools r-cran-roxygen2 && \
+RUN sudo add-apt-repository ppa:marutter/c2d4u3.5
+RUN sudo apt update && \
+  sudo apt install -y r-base r-base-core r-recommended && \
+  sudo apt-get install -y r-base-dev && \
+  sudo apt install -y r-cran-devtools r-cran-roxygen2 && \
   sudo apt-get clean
 
 ## User Commands: set Jovyan as user for rest of script
@@ -33,7 +29,7 @@ USER $NB_USER
 
 ## Upgrade Jupyter Notebook/Lab
 
-RUN pip install --upgrade notebook && \
+RUN pip install --upgrade jupyterlab && pip install --upgrade notebook && \
   ## Download and enable Notebook extensions
   pip install --upgrade jupyter_contrib_nbextensions && \
   jupyter contrib nbextension install --user && \
@@ -51,12 +47,24 @@ RUN pip install --upgrade notebook && \
 # TODO: this doesn't work right now.
 # COPY startup.ipy .ipython/profile_default/startup/
 
+## Download and install Lab extensions
+
+RUN jupyter labextension install @ryantam626/jupyterlab_code_formatter --no-build && \
+    ## Code formatting
+    pip install jupyterlab_code_formatter && \
+    jupyter serverextension enable --py jupyterlab_code_formatter  && \
+    pip install yapf  && \
+    pip install black && \
+    ## Spell checking
+    jupyter labextension install @ijmbarr/jupyterlab_spellchecker --no-build && \
+    ## Build
+    jupyter lab build
+
 ## Install python packages from requirements.txt file
 COPY requirements.txt /tmp/
-RUN pip install --requirement /tmp/requirements.txt
-#&& \
-#  fix-permissions $CONDA_DIR && \
-#  fix-permissions /home/$NB_USER
+RUN pip install --requirement /tmp/requirements.txt && \
+    fix-permissions $CONDA_DIR && \
+    fix-permissions /home/$NB_USER
 
 ## Set destination for tmp R library installation.
 RUN mkdir -p /home/jovyan/lib/R/packages

@@ -19,7 +19,7 @@ pkgLoad <- function(packages) {
 
 }
 
-pkgLoad(c())
+pkgLoad(c("Matching"))
 
-library(devtools)
-devtools::install_github("soerenkuenzel/causalToolbox")
+#library(devtools)
+#devtools::install_github("soerenkuenzel/causalToolbox")
